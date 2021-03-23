@@ -4,11 +4,11 @@ import requests
 import time
 
 
-def scrap_email(firstname, lastname, file_emails):
+def scrap_email(firstname, file_emails):
 
-  print(firstname, lastname)
+  print(firstname)
 
-  url = "https://allpeople.com/search?ss=%s+%s&ss-e=&ss-p=&ss-i=&where=&industry-auto=&where-auto=" % (firstname, lastname)
+  url = "https://allpeople.com/search?ss=%s&ss-e=&ss-p=&ss-i=&where=&industry-auto=&where-auto=" % (firstname)
   
   page = requests.get(url)
   
@@ -34,14 +34,16 @@ def scrap_email(firstname, lastname, file_emails):
       edit_page = requests.get(edit_url)
 
       edit_content = BeautifulSoup(edit_page.text, "html.parser")
-      
+
+      name = edit_content.find_all(id="id_name")[0]["value"]
+
       edit_email_input = edit_content.find_all(id="id_email0")
 
       email = edit_email_input[0]['value']
 
-      print(email)
+      print(name, email)
       
-      file_emails.writelines("%s %s : %s\n" % (firstname, lastname, email))
+      file_emails.writelines("%s : %s\n" % (name, email))
 
 
 # 
@@ -53,19 +55,14 @@ first_names = open("male_first_names.txt", "r").readlines()
 
 # file_female_first_names = open("female_first_names.txt", "r")
 
-last_names = open("last_names.txt", "r").readlines()
-
 file_emails = open("emails.txt", "w+")
 
 
 for first_name in first_names:
-  for last_name in last_names:
-    scrap_email(first_name.strip(), last_name.strip(), file_emails)
-    time.sleep(3)
+    scrap_email(first_name.strip(), file_emails)
+    time.sleep(1.25)
 
 
-# scrap_email("James", "Miller", file_emails)
-
+# scrap_email("James", file_emails)
 
 file_emails.close()
-

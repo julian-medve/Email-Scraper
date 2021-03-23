@@ -50,9 +50,9 @@ def get_data(url, file_name):
 
 # I'm calling the function 3 times to have 3 files: one for women's first names, one for men's first names, and one for surnames
 
-url = "https://namecensus.com/data/1000.html"
-file_name = "last_names.txt"
-get_data(url, file_name)
+# url = "https://namecensus.com/data/1000.html"
+# file_name = "last_names.txt"
+# get_data(url, file_name)
 
 url = "https://namecensus.com/male_names.htm"
 file_name = "male_first_names.txt"
